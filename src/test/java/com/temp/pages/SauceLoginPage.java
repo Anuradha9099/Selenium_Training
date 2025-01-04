@@ -1,5 +1,6 @@
 package com.temp.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,48 +22,58 @@ public class SauceLoginPage {
 
     private final WebDriver webDriver;
 
-    @FindBy(id="user-name")
-    WebElement txtUsername;
+    private By txtUsername = By.id("user-name");
+    private By txtPassword = By.id("password");
+    private By btnLogin = By.id("login-button");
+    private By lblErrorMessage= By.xpath("h3[data-test='error']");
 
-    @FindBy(id="password")
-    WebElement txtPassword;
+//    @FindBy(id="user-name")
+//    WebElement txtUsername;
 
-    @FindBy(id="login-button")
-    WebElement btnLogin;
+//    @FindBy(id="password")
+//    WebElement txtPassword;
 
-    @FindBy(css="h3[data-test='error']")
-    WebElement lblErrorMessage;
+//    @FindBy(id="login-button")
+//    WebElement btnLogin;
+
+//    @FindBy(css="h3[data-test='error']")
+//    WebElement lblErrorMessage;
 
     //constructor
     public SauceLoginPage(WebDriver webDriver){
         this.webDriver=webDriver;
-        PageFactory.initElements(this.webDriver,this);
+        //PageFactory.initElements(this.webDriver,this);
+
+        //instead of having initialization the elements in the page, during the test run it will dynamically handle the
+        //elements
     }
 
     public SauceLoginPage typeUsername(String username) {
-        txtUsername.sendKeys(username);
+        webDriver.findElement(txtUsername).sendKeys(username);
         return this;
     }
     public SauceLoginPage typePassword(String password) {
-        txtPassword.sendKeys(password);
+        webDriver.findElement(txtPassword).sendKeys(password);
         return this;
     }
 
     public void clickLogin() {
-        btnLogin.click();
+
+        webDriver.findElement(btnLogin).click();
     }
 
     public SauceLoginPage clearUsername() {
-        txtUsername.clear();
+        webDriver.findElement(txtUsername).clear();
         return this;
     }
 
     public SauceLoginPage clearPassword() {
-        txtPassword.clear();
+        webDriver.findElement(txtPassword).clear();
         return this;
     }
 
     public String getErrorMessage() {
-        return lblErrorMessage.getText().trim();
+
+        return webDriver.findElement(lblErrorMessage).getText().trim();
     }
 }

@@ -1,4 +1,4 @@
-package com.pragmatic;
+package com.Sauce;
 
 import net.datafaker.Faker;
 import org.openqa.selenium.By;

@@ -1,5 +1,6 @@
 package com.datadriven;
 
+import com.datadriven.utilities.DataProviders;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -56,5 +57,17 @@ public class SauceLoginDataDrivenTest {
         webDriver.findElement(By.id("login-button")).click();
         Assert.assertEquals(webDriver.findElement(By.cssSelector("h3[data-test='error']")).getText(), expectedError);
 
+    }
+
+    //=======================  Handle the data with Excel file ==================================
+
+    @Test(dataProvider = "UserNames",dataProviderClass = DataProviders.class)
+    public void testLogin(String username) throws InterruptedException{
+        webDriver.findElement(By.id("user-name")).sendKeys(username);
+        webDriver.findElement(By.id("password")).sendKeys("123");
+        webDriver.findElement(By.id("login-button")).click();
+        Assert.assertEquals(webDriver.findElement(By.cssSelector("h3[data-test='error']")).getText(),
+                "Epic sadface: Username and password do not match any user in this service",
+                "Expected error is incorrect!");
     }
 }
