@@ -23,7 +23,7 @@ public class CheckProductTest {
     public void beforeClass() {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-        webDriver=new ChromeDriver(options);
+        webDriver = new ChromeDriver(options);
         webDriver.get("https://www.saucedemo.com");
         webDriver.findElement(By.id("user-name")).sendKeys("standard_user");
         webDriver.findElement(By.id("password")).sendKeys("secret_sauce");
@@ -34,6 +34,7 @@ public class CheckProductTest {
 
     @AfterClass
     public void afterClass() {
+
         webDriver.quit();
     }
 
@@ -45,7 +46,7 @@ public class CheckProductTest {
 
         webDriver.findElement(By.xpath("//select[@class='product_sort_container']/option[text()='Price (high to low)']"));
         String selectedValue = webDriver.findElement(By.xpath("//select[@class='product_sort_container']/option[text()='Price (high to low)']")).getText();
-        Assert.assertEquals(selectedValue,"Price (high to low)");
+        Assert.assertEquals(selectedValue, "Price (high to low)");
 
         List<WebElement> priceElements = webDriver.findElements(By.xpath("//div[contains(@class, 'inventory_item_price')]"));
         String[] prices = new String[priceElements.size()];
@@ -57,25 +58,19 @@ public class CheckProductTest {
         }
 
         boolean isSortedDescending = isDescendingOrder(numericPrices);
-        if(isSortedDescending)
-        {
-            System.out.println("The prices are sorted in descending order.");
-        }
-        else
-        {
-            System.out.println("The prices are not sorted in descending order.");
-        }
+        //Asset that the prices are sorted in desending order
+        Assert.assertTrue(isSortedDescending, "The prices are not sorted in descending order.");
     }
 
     @Test
     public void testFilterPriceAtoZOptionInProduct() {
-        WebElement eleoptions= webDriver.findElement(By.xpath("//select[@class='product_sort_container']"));
-        Select selOptions=new Select(eleoptions);
+        WebElement eleoptions = webDriver.findElement(By.xpath("//select[@class='product_sort_container']"));
+        Select selOptions = new Select(eleoptions);
 //        selOptions.selectByIndex(2);
 //        selOptions.selectByValue("za");
         selOptions.selectByVisibleText("Price (low to high)");
         selOptions.selectByIndex(3);
-        Assert.assertEquals(selOptions.getFirstSelectedOption().getText(),"Price (low to high)");
+        Assert.assertEquals(selOptions.getFirstSelectedOption().getText(), "Price (low to high)");
 
     }
 
@@ -90,7 +85,7 @@ public class CheckProductTest {
 
         webDriver.findElement(By.xpath("//select[@class='product_sort_container']/option[text()='Price (high to low)']"));
         String selectedValue = webDriver.findElement(By.xpath("//select[@class='product_sort_container']/option[text()='Price (low to high)']")).getText();
-        Assert.assertEquals(selectedValue,"Price (low to high)");
+        Assert.assertEquals(selectedValue, "Price (low to high)");
 
         List<WebElement> priceElements = webDriver.findElements(By.xpath("//div[contains(@class, 'inventory_item_price')]"));
         String[] prices = new String[priceElements.size()];
@@ -101,15 +96,9 @@ public class CheckProductTest {
             numericPrices[i] = Double.parseDouble(prices[i]);
         }
 
-        boolean isSortedDescending = isAcendingOrder(numericPrices);
-        if(isSortedDescending)
-        {
-            System.out.println("The prices are sorted in acending order.");
-        }
-        else
-        {
-            System.out.println("The prices are not sorted in acending order.");
-        }
+        boolean isSortedAcending = isAcendingOrder(numericPrices);
+        //Asset that the prices are sorted in desending order
+        Assert.assertTrue(isSortedAcending, "The prices are not sorted in acending order.");
     }
 
     @Test
@@ -122,7 +111,7 @@ public class CheckProductTest {
             for (int j = 0; j <= p; j++) {
                 addButtonClickElements.get(j).click(); // Click buttons up to the current index
             }
-            p=p+1;
+            p = p + 1;
 
             // Assert that the shopping cart badge matches the expected count
             Assert.assertEquals(webDriver.findElement(By.xpath("//span[@class='shopping_cart_badge']")).getText(), String.valueOf(p));
@@ -136,7 +125,7 @@ public class CheckProductTest {
     }
 
     @Test
-    public void testRemoveCartItems(){
+    public void testRemoveCartItems() {
         int p = 0;
         for (int i = 0; i < webDriver.findElements(By.xpath("//div[@class='inventory_item']")).size(); i++) {
             List<WebElement> addToCartButtons_1 = webDriver.findElements(By.xpath("//button[contains(text(),'Add to cart')]"));
@@ -147,16 +136,14 @@ public class CheckProductTest {
             // Re-locate elements to avoid stale references
             List<WebElement> removeButtonClickElements = webDriver.findElements(By.xpath("//button[contains(@class, 'btn_inventory') and contains(@class, 'btn_secondary')]"));
 
-            for (int j = 0; j <= p; j++)
-            {
+            for (int j = 0; j <= p; j++) {
                 removeButtonClickElements.get(j).click(); // Click buttons up to the current index
             }
-            p=p+1;
+            p = p + 1;
 
-            if (webDriver.findElements(By.xpath("//button[contains(@class, 'btn_inventory') and contains(@class, 'btn_secondary')]")).size()==0){
+            if (webDriver.findElements(By.xpath("//button[contains(@class, 'btn_inventory') and contains(@class, 'btn_secondary')]")).size() == 0) {
                 break;
-            }
-            else{
+            } else {
                 // Assert that the shopping cart badge matches the expected count
                 Assert.assertEquals(webDriver.findElement(By.xpath("//span[@class='shopping_cart_badge']")).getText(), String.valueOf(webDriver.findElements(By.xpath("//button[contains(@class, 'btn_inventory') and contains(@class, 'btn_secondary')]")).size()));
             }
@@ -211,12 +198,12 @@ public class CheckProductTest {
 
         String[] prices = new String[getPriceElements.size()];
         double[] numericPrices = new double[prices.length];
-        double grandTotal=0;
+        double grandTotal = 0;
 
         for (int i = 0; i < getPriceElements.size(); i++) {
             prices[i] = getPriceElements.get(i).getText().replace("$", "").trim();
             numericPrices[i] = Double.parseDouble(prices[i]);
-            grandTotal=grandTotal+numericPrices[i];
+            grandTotal = grandTotal + numericPrices[i];
         }
 
         webDriver.findElement(By.xpath("//button[@id='checkout']")).click();
@@ -224,9 +211,9 @@ public class CheckProductTest {
                 "Checkout: Your Information");
 
         Faker faker = new Faker();
-        String firstName= faker.name().firstName();
-        String lastName= faker.name().lastName();
-        String zipCode= faker.address().zipCode();
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String zipCode = faker.address().zipCode();
 
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
@@ -240,7 +227,7 @@ public class CheckProductTest {
         Assert.assertEquals(webDriver.findElement(By.xpath("//span[@class='title']")).getText(),
                 "Checkout: Overview");
 
-        Assert.assertEquals(String.valueOf(grandTotal),String.valueOf(webDriver.findElement(By.xpath("//div[@class='summary_subtotal_label']")).getText().replace("Item total: $", "").trim()));
+        Assert.assertEquals(String.valueOf(grandTotal), String.valueOf(webDriver.findElement(By.xpath("//div[@class='summary_subtotal_label']")).getText().replace("Item total: $", "").trim()));
         webDriver.findElement(By.id("finish")).click();
 
         Assert.assertEquals(webDriver.findElement(By.xpath("//h2[@data-test='complete-header']")).getText(),
@@ -261,18 +248,18 @@ public class CheckProductTest {
     }
 
     private void removetItem(String removeItemName) {
-        webDriver.findElement(By.xpath("//button[@id='"+removeItemName+"']")).click();
+        webDriver.findElement(By.xpath("//button[@id='" + removeItemName + "']")).click();
     }
 
     private void selectItem(String itemID, String itemName) {
-        webDriver.findElement(By.xpath("//button[@id='"+itemID+"']")).click();
-        String selectedValue= webDriver.findElement(By.xpath("//div[text()='"+itemName+"']")).getText();
+        webDriver.findElement(By.xpath("//button[@id='" + itemID + "']")).click();
+        String selectedValue = webDriver.findElement(By.xpath("//div[text()='" + itemName + "']")).getText();
         webDriver.findElement(By.xpath("//a[@class='shopping_cart_link']")).click();
         Assert.assertEquals(webDriver.findElement(By.xpath("//span[@class='title']")).getText(),
                 "Your Cart");
 
-        String expectedValue= webDriver.findElement(By.xpath("//div[text()='"+itemName+"']")).getText();
-        Assert.assertEquals(selectedValue,expectedValue);
+        String expectedValue = webDriver.findElement(By.xpath("//div[text()='" + itemName + "']")).getText();
+        Assert.assertEquals(selectedValue, expectedValue);
     }
 
     private boolean isAcendingOrder(double[] array) {

@@ -41,6 +41,9 @@ public class SauceLoginPage {
 
     //constructor
     public SauceLoginPage(WebDriver webDriver){
+        if(webDriver==null){
+            throw new IllegalArgumentException("WebDriver must not be null");
+        }
         this.webDriver=webDriver;
         //PageFactory.initElements(this.webDriver,this);
 

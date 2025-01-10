@@ -4,11 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -54,7 +57,7 @@ public class CheckEachWebElementsTest {
     }
 
     @Test
-    public void testSelectSpecificDateInCurrentDate()  {
+    public void testSelectSpecificDateInCurrentDate() {
         LocalDate currentDate = LocalDate.now();
         int currentDay = 14; // Fixed day of the current month
         String expectedDate = currentDate.withDayOfMonth(currentDay).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
@@ -68,22 +71,46 @@ public class CheckEachWebElementsTest {
     }
 
     @Test
-    public void testNavigateThroughMonths()  {
+    public void testNavigateThroughMonths() {
 
-        //select current month
-        WebElement datePicker = driver.findElement(By.xpath("//input[@name='my-date']"));
+        //The date picker test needs to dynamically handle the transition to the next month
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement datePicker = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@name='my-date']")));
         datePicker.click();
 
-        //select next month
-        WebElement nextMonthButton = driver.findElement(By.xpath("//div[@class='datepicker-days']//th[@class='next'][normalize-space()='»']"));
+        //select next month button
+        WebElement nextMonthButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='datepicker-days']//th[@class='next'][normalize-space()='»']")));
         nextMonthButton.click();
 
-        WebElement displayedMonth = driver.findElement(By.xpath("//th[normalize-space()='January 2025']")); // Adjust
-        Assert.assertEquals(displayedMonth.getText(), "January 2025");
+        //Get the next month dynamically
+        LocalDate currentDate = LocalDate.now();
+        LocalDate nextMonthDate = currentDate.plusMonths(1); //get the date for next month
+        String nextMonth = nextMonthDate.getMonth().name(); // get the next month name in all uppercase (eg. FEBRUARY)
+
+        int nextYear = nextMonthDate.getYear(); //get the year of the next month (accounting for december -> january transition)
+
+        //format the expected month and year in camel case
+        String expectedMonthText = toCamelCase(nextMonth) + " " + nextYear;
+        System.out.println(expectedMonthText);
+
+        //verify the displayed month (both expected and actual in lowercase for comparison)
+        WebElement displayedMonth = driver.findElement(By.xpath("//th[normalize-space(text())='" + expectedMonthText + "']"));
+
+        Assert.assertEquals(displayedMonth.getText(), expectedMonthText, "Displayed month is incorrect.");
     }
 
+    //helper method to convert string to camelcase
+    private String toCamelCase(String name) {
+        String convertedName = name.toLowerCase();
+        if (convertedName.isEmpty()) {
+            return convertedName;
+        }
+        return convertedName.substring(0, 1).toUpperCase() + convertedName.substring(1);
+    }
+
+
     @Test
-    public void testInputDateIsVisibleInCalendar()  {
+    public void testInputDateIsVisibleInCalendar() {
         WebElement datePicker = driver.findElement(By.xpath("//input[@name='my-date']"));
         datePicker.sendKeys("01/14/2001");
         String displayed_date = datePicker.getDomProperty("value");

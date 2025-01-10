@@ -11,6 +11,9 @@ import org.testng.annotations.Test;
 public class BasicAuthTest {
 
     private WebDriver webDriver;
+    private String username="admin";
+    private String password="admin";
+    private String BASE_URL="https://the-internet.herokuapp.com/basic_auth";
 
     @BeforeMethod
     public void beforeMethod(){
@@ -23,17 +26,19 @@ public class BasicAuthTest {
         webDriver.quit();
     }
 
+    //utility method to construct the authenticated URLs
+    public static String getAuthenticatedRL(String uname, String pwd, String url) {
+        return String.format("https://%s:%s@%s",uname,pwd,url.replace("https://",""));
+    }
+
     @Test
     public void testBasicAuth() {
 
-        String username="admin";
-        String password="admin";
-        String BASE_URL="https://the-internet.herokuapp.com/basic_auth";
+//        String authenticatedURL="https://"+username+":"+password+"@"+ BASE_URL.replace("https://","");
+//        String authenticatedURL1= String.format("https://%s:%s@the-internet.herokuapp.com/basic_auth",username,password);
 
-        String authenticatedURL="https://"+username+":"+password+"@"+ BASE_URL.replace("https://","");
-        String authenticatedURL1= String.format("https://%s:%s@the-internet.herokuapp.com/basic_auth",username,password);
-
-        webDriver.get(authenticatedURL1);
+        //utility method to construct the authenticated URLs
+        webDriver.get(getAuthenticatedRL(username,password,BASE_URL));
 
         //validate successful login by checking the page text
         String pageSource=webDriver.getPageSource();
@@ -46,8 +51,6 @@ public class BasicAuthTest {
 
         Assert.assertEquals(webDriver.findElement(By.tagName("p")).getText(),
                 "Congratulations! You must have the proper credentials.");
-
-
 
     }
 }

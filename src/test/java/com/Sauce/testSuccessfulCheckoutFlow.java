@@ -9,7 +9,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class CheckOutFlowTest {
+public class testSuccessfulCheckoutFlow {
 
     WebDriver webDriver;
     //private final static BASE_URL='https://www.saucedemo.com';
@@ -27,13 +27,6 @@ public class CheckOutFlowTest {
 //        if(webDriver!=null){
 //            webDriver.quit();
 //        }
-        try {
-            // Pause for 5 seconds (5000 milliseconds)
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            // Handle the exception
-            System.out.println("Thread was interrupted: " + e.getMessage());
-        }
         webDriver.quit();
     }
 
