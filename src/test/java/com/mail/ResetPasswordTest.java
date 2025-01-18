@@ -84,20 +84,20 @@ public class ResetPasswordTest {
         Assert.assertTrue(firstCode.value().matches("\\d{6}")); //Assert number of 6-digit number
     }
 
-//    private Message getMessage() throws IOException, MailosaurException {
-//        String email = mailosaur.servers().generateEmailAddress(serverId); //generate email automatically
-//
-//        webDriver.findElement(By.id("email")).sendKeys(email);
-//        webDriver.findElement(By.xpath("//button['submit']")).click();
-//
-//        params.withServer(serverId);
-//        criteria.withSentTo(email);
-//        Message message = mailosaur.messages().get(params, criteria);
-//
-//        Assert.assertNotNull(message);
-//
-//        Assert.assertEquals(message.to().get(0).email(), email); //verify the email address in TO
-//        Assert.assertEquals(message.from().get(0).email(), "noreply@example.mailosaur.net"); //verify the email address in FROM
-//        return message;
-//    }
+    private Message getMessage() throws IOException, MailosaurException {
+        String email = mailosaur.servers().generateEmailAddress(serverId); //generate email automatically
+
+        webDriver.findElement(By.id("email")).sendKeys(email);
+        webDriver.findElement(By.xpath("//button['submit']")).click();
+
+        params.withServer(serverId);
+        criteria.withSentTo(email);
+        Message message = mailosaur.messages().get(params, criteria);
+
+        Assert.assertNotNull(message);
+
+        Assert.assertEquals(message.to().get(0).email(), email); //verify the email address in TO
+        Assert.assertEquals(message.from().get(0).email(), "noreply@example.mailosaur.net"); //verify the email address in FROM
+        return message;
+    }
 }
