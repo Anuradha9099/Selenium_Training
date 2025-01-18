@@ -73,7 +73,7 @@ public class ResetPasswordTest {
     }
 
     @Test
-    public void testResetPasswordWithSMS() throws MailosaurException, IOException {
+    public void testResetPasswordWithOTP() throws MailosaurException, IOException {
         webDriver.get("https://example.mailosaur.com/otp");
 
         Message message = getMessage();
