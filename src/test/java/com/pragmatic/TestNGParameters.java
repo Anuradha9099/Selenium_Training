@@ -1,5 +1,6 @@
 package com.pragmatic;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -30,9 +31,18 @@ public class TestNGParameters{
         System.out.println("TestNGMethodsTest.testMethod4");
     }
 
+    //add the testNG annotation to the method to with @Parameters with @Optional annotation
+    @Parameters({"browserName"})
+    @Test
+    public void testMethodWithOptional(@Optional("chrome") String browserName) {
+        System.out.println("TestNGMethodsTest.testMethodWithOptional");
+        System.out.println("browserName = " + browserName);
+    }
+
     @Test (groups = {"smoke"})
     public void testMethod5() {
 
         System.out.println("TestNGMethodsTest.testMethod5");
     }
+    
 }
