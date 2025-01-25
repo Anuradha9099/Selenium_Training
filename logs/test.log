@@ -1,0 +1,14 @@
+2025-01-25 11:29:03 [main] INFO  com.log4jtests.LoggingTest - This is an INFO message
+2025-01-25 11:29:03 [main] WARN  com.log4jtests.LoggingTest - This is a WARN message
+2025-01-25 11:29:03 [main] ERROR com.log4jtests.LoggingTest - This is an ERROR message
+2025-01-25 11:29:03 [main] FATAL com.log4jtests.LoggingTest - This is a FATAL message
+2025-01-25 11:30:15 [main] INFO  com.log4jtests.LoggingTest - This is an INFO message
+2025-01-25 11:30:15 [main] WARN  com.log4jtests.LoggingTest - This is a WARN message
+2025-01-25 11:30:15 [main] ERROR com.log4jtests.LoggingTest - This is an ERROR message
+2025-01-25 11:30:15 [main] FATAL com.log4jtests.LoggingTest - This is a FATAL message
+2025-01-25 11:31:35 [main] TRACE com.log4jtests.LoggingTest - This is a TRACE message
+2025-01-25 11:31:35 [main] DEBUG com.log4jtests.LoggingTest - This is a DEBUG message
+2025-01-25 11:31:35 [main] INFO  com.log4jtests.LoggingTest - This is an INFO message
+2025-01-25 11:31:35 [main] WARN  com.log4jtests.LoggingTest - This is a WARN message
+2025-01-25 11:31:35 [main] ERROR com.log4jtests.LoggingTest - This is an ERROR message
+2025-01-25 11:31:35 [main] FATAL com.log4jtests.LoggingTest - This is a FATAL message

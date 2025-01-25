@@ -2,12 +2,14 @@ package com.Sauce;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.time.Duration;
 
 public class SourceLoginTest {
@@ -96,13 +98,17 @@ public class SourceLoginTest {
                 "Epic sadface: Username and password do not match any user in this service");
     }
 
-    @Test
+    @Test(description = "This test case is to verify the error message when the user enters invalid username and blank password")
     public void testLoginWithInvalidUsernameAndBlankPassword(){
         webDriver.findElement(By.id("user-name")).sendKeys("test1");
         webDriver.findElement(By.id("password")).clear();
-        webDriver.findElement(By.id("login-button")).click();
+        WebElement element= webDriver.findElement(By.id("login-button"));
+
+        Button button = new Button(element);
+        button.click();
+
         Assert.assertEquals(webDriver.findElement(By.cssSelector("h3[data-test='error']")).getText(),
-                "Epic sadface: Username is required");
+                "Epic sadface: Password is required");
     }
 
     @Test
