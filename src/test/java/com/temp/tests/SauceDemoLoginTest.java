@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.assertj.core.api.Assertions.*;
+
 /*
 How It Works:
 The test classes (e.g., SauceDemoLoginTest) rely on the methods in pages to
@@ -28,7 +30,18 @@ public class SauceDemoLoginTest extends SauceDemoTestBase {
         loginPage.typeUsername("standard_user").typePassword("secret_sauce").clickLogin();
 
         LandingPage landingPage=new LandingPage(webDriver);
-        Assert.assertEquals(landingPage.getPageTitle(),"Products");
+
+        // assertj assertion
+        assertThat(landingPage.getPageTitle())
+                    .isEqualTo("Products")
+                    .as("Page title is not as expected")
+                    .contains("Products")
+                    .startsWith("Pro")
+                    .endsWith("cts")
+                    .doesNotContain("Login")
+                    .isNotBlank()
+                    .isNotEmpty()
+                    .isNotNull();
     }
 
     @Test
