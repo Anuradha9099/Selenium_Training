@@ -5,6 +5,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -60,5 +61,28 @@ public class InfiniteScrollTest {
 
         // Assert that new content has been loaded
         Assert.assertTrue(newContentHeight > initialContentHeight, "New content was not loaded after scrolling.");
+    }
+
+    //This will go as a separate class
+    private static class ElementHasExpandedFully implements ExpectedCondition<Boolean> {
+        private final By collapsibleElement;
+        private int lastHeight;
+
+
+        public ElementHasExpandedFully(By collapsibleElement) {
+            this.collapsibleElement = collapsibleElement;
+        }
+
+        @Override
+        public Boolean apply(WebDriver webDriver) {
+            int newHeight =webDriver.findElement(collapsibleElement).getSize().height;
+            System.out.printf("new height %d > %d%n", newHeight, lastHeight);
+            if (newHeight > lastHeight) {
+                lastHeight = newHeight;
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 }

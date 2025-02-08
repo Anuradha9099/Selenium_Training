@@ -25,7 +25,7 @@ public class SauceLoginPage {
     private By txtUsername = By.id("user-name");
     private By txtPassword = By.id("password");
     private By btnLogin = By.id("login-button");
-    private By lblErrorMessage= By.xpath("h3[data-test='error']");
+    private By lblErrorMessage= By.cssSelector("h3[data-test='error']");
 
 //    @FindBy(id="user-name")
 //    WebElement txtUsername;
@@ -42,7 +42,7 @@ public class SauceLoginPage {
     //constructor
     public SauceLoginPage(WebDriver webDriver){
         if(webDriver==null){
-            throw new IllegalArgumentException("WebDriver must not be null");
+            throw new IllegalArgumentException("WebDriver instance cannot be null. Ensure that it is properly initialized before use.");
         }
         this.webDriver=webDriver;
         //PageFactory.initElements(this.webDriver,this);
